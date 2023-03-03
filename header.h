@@ -5,6 +5,8 @@
 #include <vector>
 #include <algorithm>
 #include <cctype>
+#include <fstream>
+
 using std::string;
 using std::cout;
 using std::cin;
@@ -19,3 +21,7 @@ using std::uniform_int_distribution;
 using std::vector;
 using std::isspace;
 using std::endl;
+using std::ifstream;
+using std::stringstream;
+using std::ofstream;
+using std::sort;
