@@ -15,7 +15,6 @@ void read (vector<studentas> *id){
             cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             break;
         }
-        
         else {
             cout << "Prasome ivesti tinkama reiksme.\n";
             cin.clear(); 
@@ -53,15 +52,12 @@ while (1){
 //----------------------------------------------------------------------------------
     if (pasirinkimas=="a"){
 //------------------------pazymiu ivedimas automatiniu budu--------------------------
-        if (cin){
-            for (int i=0; i<kiekis; i++){
             random_device rd;
             mt19937 mt(rd());
             uniform_int_distribution <int> dist(1,10);
             for (int i=0; i<kiekis; i++) temp.paz.push_back(dist(mt));
-            temp.paz.push_back(dist(mt)); 
-            }
-        }
+            temp.egz=(dist(mt));
+            (*id).push_back(temp);
     }
 //-------------------------------------------------------------------------------------
     else {
@@ -120,7 +116,7 @@ double vidurkis (vector<studentas> *id, int n){
 double mediana (vector<studentas> *id, int n){
     sort((*id)[n].paz.begin(), (*id)[n].paz.end());
     double vid = (*id)[n].paz.size()/2;
-    return (*id)[n].paz.size() % 2 == 0 ? ((*id)[n].paz[vid-1] + (*id)[n].paz[vid]) / 2: (*id)[n].paz[vid];
+    return (*id)[n].paz.size() % 2 == 0 ? ((*id)[n].paz[vid-1] + (*id)[n].paz[vid]) / 2: (*id)[n].paz[vid-0.5];
 }
 
 void write (vector<studentas>id){
@@ -157,65 +153,208 @@ void write (vector<studentas>id){
     } 
 }
 
-void autoRead (vector<studentas> *id) { 
-    ifstream open_f("studentai1000000.txt");
-    string eil;
-    getline(open_f, eil);
+void autoRead(vector<studentas> *id, string failas) { 
+    ifstream open_f(failas);
+    if (!open_f.is_open()) {
+        throw runtime_error("Could not open file " + failas);
+    }
+    stringstream buferis;
+    buferis << open_f.rdbuf();
+    open_f.close();
 
-    while (getline(open_f, eil)) { 
+    buferis.seekg(0);
+    string eil;
+    getline(buferis, eil);
+
+    while (getline(buferis, eil)) { 
         stringstream ss(eil);
         int pazymys;
         studentas temp;
 
         ss >> temp.vardas >> temp.pavarde;
         while (ss >> pazymys) temp.paz.push_back(pazymys);
+        if (temp.paz.empty()) {
+            throw runtime_error("Netinkamas formatas: nerastas pazymys");
+        }
         temp.egz = temp.paz.back();
         temp.paz.pop_back();
 
         (*id).push_back(temp);
-        temp.paz.clear();
-        vector<int>().swap(temp.paz);
-  }
-  open_f.close();
+    }
+    buferis.clear();
 }
 
-void autoWrite (vector<studentas> id){
+void autoWrite (vector<studentas> id, string failas, int ask){
     string budas;
     stringstream outputas;
-    cout << "Norite skaiciuoti su vidurkiu ar mediana? (v/m)\n";
-    while (1){
-        cin >> budas; 
-        if (budas == "v" || budas == "m"){
-            cin.clear(); 
-            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            break;
-        }
-        else {
-            cout << "Prasome ivesti tinkama reiksme.\n";
-            cin.clear(); 
-            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            }   
-    }
 
-    if (budas == "v"){
+    if (ask == 1){
+        outputas << left << setw(40) << "Pavarde" << left << setw(30) << "Vardas" << "Bendras(vid.)\n";
         for (int i=0; i<id.size(); i++){
-            outputas << left << setw(20) << id[i].pavarde << left << setw(15) << id[i].vardas 
+            outputas << left << setw(40) << id[i].pavarde << left << setw(30) << id[i].vardas 
             << fixed << setprecision(2) << (vidurkis (&id, i))*0.4 + id[i].egz*0.6 << "\n";
         }    
     } else {
+        outputas << left << setw(40) << "Pavarde" << left << setw(30) << "Vardas" << "Bendras(med.)\n";
         for (int i=0; i<id.size(); i++){
-            outputas << left << setw(20) << id[i].pavarde << left << setw(15) << id[i].vardas 
+            outputas << left << setw(40) << id[i].pavarde << left << setw(30) << id[i].vardas 
             << fixed << setprecision(2) << (mediana (&id, i))*0.4 + id[i].egz*0.6 << "\n";
         } 
     }
     
 //------------------------------------------------------------------------------
-    ofstream out_f("studenati_copy.txt");
+    ofstream out_f(failas);
     out_f << outputas.str();
     out_f.close();
+}
+
+void testFiles (int kiekisPaz){
+    string eil;
+    stringstream buferis;
+    vector<string> names, surnames;
+
+    //----------------------------------nuskaitomi vardai, naudojant buferi---------------------------------   
+    ifstream fd1("names18239.txt");
+    buferis << fd1.rdbuf();
+    fd1.close();
+    
+    while (buferis){
+        if (!buferis.eof()){
+            getline (buferis, eil);
+            names.push_back(eil);
+        } else break;
+    }
+    buferis.clear();
+//--------------------------------------nuskaitomos pavardes, naudojant buferi----------------------------
+    ifstream fd2("surnames29638.txt");
+    buferis << fd2.rdbuf();
+    fd2.close();
+    
+    while (buferis){
+        if (!buferis.eof()){
+            getline (buferis, eil);
+            surnames.push_back(eil);
+        } else break;
+    }
+    buferis.clear();
+//------------------------------------pazymiu generavimas, duomenu suklaudimas-------------------------------------------------------
+    stringstream outputas;
+    string failas;
+    random_device rd;
+    mt19937 genSur(rd());
+    uniform_int_distribution <int> distSur(1,29600);
+    mt19937 genNam(rd());
+    uniform_int_distribution <int> distNam(1,18200);
+    mt19937 genPaz(rd());
+    uniform_int_distribution <int> distPaz(1,10);
+    
+    for (int f=1000; f<10000000; f=f*10) {
+        auto start = std::chrono::high_resolution_clock::now();
+        auto st=start;
+        failas = "studentai" + to_string(f) + ".txt";
+        for (int i=0; i<f; i++){ 
+            outputas << left << setw(30) <<  names[distNam(genNam)]   << left << setw(40) << surnames[distSur(genSur)];
+            for (int j=0; j<kiekisPaz; j++) outputas << left << setw(8) << distPaz(genPaz);
+            outputas << right << setw(8) << distPaz(genPaz) << "\n";
+        }
+        
+    //-------------------------------------duomenu isvedimas--------------------------------------------------------------------------------
+        ofstream out_f(failas);
+        out_f << left << setw(30) << "Vardas" << left << setw(40) << "Pavarde";
+            for (int j=0; j<kiekisPaz; j++) out_f << "Nd" << left << setw(6) << j+1;
+            out_f << right << setw(12) << "Egz.\n";
+        out_f << outputas.str();
+        out_f.close();
+        outputas.str(string());
+        outputas.clear();
+        auto end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> diff = end-start;
+        cout << failas << " sudarymas uztruko: " << diff.count() << " s.\n";
+    }
+
+//---------------------------------------------------------------------------------------------------------------------------------------
+names.clear();
+surnames.clear();
 }
 
 bool palygintiPavardes(const studentas& a, const studentas& b) {
     return a.pavarde < b.pavarde;
 }
 
+int intInput () {
+    string input;
+    while (1) {
+        if (!(cin >> input) || count_if(input.begin(), input.end(), [](char c){ return !isdigit(c); }) > 0 || input.find_first_of(",.") != string::npos) {
+            cout << "Neteisinga ivestis. Prasome ivesti is naujo" << std::endl;
+            cin.clear(); 
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        } else {
+            break;
+        }
+    }
+    return stoi(input);
+}
+
+int ask () {
+    string input;
+    while (1) {
+        if (!(cin >> input) || count_if(input.begin(), input.end(), [](char c){ return !isdigit(c); }) > 0 || input.find_first_of(",.") != string::npos||(input!="1" && input!="0")) {
+            cout << "Neteisinga ivestis. Prasome ivesti is naujo" << std::endl;
+            cin.clear(); 
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        } else {
+            break;
+        }
+    }
+    return stoi(input);
+}
+
+void testWrite (vector<studentas> id, int ask){
+    string fileGood = "eiliniai"+to_string(id.size())+".txt" , fileBad = "zaliocikai"+to_string(id.size())+".txt";
+    stringstream zaliocikai, eiliniai;
+
+    if (ask==1){
+        for (int i=0; i<id.size(); i++){ 
+            double tempVid = (vidurkis (&id, i))*0.4 + id[i].egz*0.6;
+            if (tempVid<5){
+                zaliocikai << left << setw(40) << id[i].pavarde << left << setw(30) << id[i].vardas << right << setw(8) << fixed << setprecision(2) << tempVid << "\n";
+            } 
+            else
+                eiliniai << left << setw(40) << id[i].pavarde << left << setw(30) << id[i].vardas << right << setw(8) << fixed << setprecision(2) << tempVid << "\n";
+        } 
+
+        ofstream out_z(fileBad);
+        out_z << left << setw(40) << "Pavarde" << left << setw(30) << "Vardas" << right << setw(20) << "Galutinis balas (vid.)\n";
+        out_z << "--------------------------------------------------------------------------------------------\n";
+        out_z << zaliocikai.str();
+        out_z.close();
+
+        ofstream out_e(fileGood);
+        out_e << left << setw(40) << "Pavarde" << left << setw(30) << "Vardas" << right << setw(20) << "Galutinis balas (vid.)\n";
+        out_e << "--------------------------------------------------------------------------------------------\n";
+        out_e << eiliniai.str();
+        out_e.close();
+    }
+    else {
+        for (int i=0; i<id.size(); i++){ 
+            double tempVid = (mediana (&id, i))*0.4 + id[i].egz*0.6;
+            if (tempVid<5){
+                zaliocikai << left << setw(40) << id[i].pavarde << left << setw(30) << id[i].vardas << right << setw(8) << fixed << setprecision(2) << tempVid << "\n";
+            } 
+            else
+                eiliniai << left << setw(40) << id[i].pavarde << left << setw(30) << id[i].vardas << right << setw(8) << fixed << setprecision(2) << tempVid << "\n";
+        } 
+
+        ofstream out_z(fileBad);
+        out_z << left << setw(40) << "Pavarde" << left << setw(30) << "Vardas" << right << setw(20) << "Galutinis balas (med.)\n";
+        out_z << "--------------------------------------------------------------------------------------------\n";
+        out_z << zaliocikai.str();
+        out_z.close();
+
+        ofstream out_e(fileGood);
+        out_e << left << setw(40) << "Pavarde" << left << setw(30) << "Vardas" << right << setw(20) << "Galutinis balas (med.)\n";
+        out_e << "--------------------------------------------------------------------------------------------\n";
+        out_e << eiliniai.str();
+        out_e.close();    
+    }
+}

@@ -6,13 +6,17 @@
 #include <vector>
 #include <algorithm>
 #include <cctype>
+#include <sstream>
 #include <fstream>
+#include <limits>
+#include <chrono>
 
 using std::string;
 using std::cout;
 using std::cin;
 using std::stoi;
 using std::left;
+using std::right;
 using std::fixed;
 using std::setw;
 using std::setprecision;
@@ -29,6 +33,9 @@ using std::sort;
 using std::runtime_error;
 using std::exception;
 using std::cerr;
+using std::to_string;
+using std::count_if;
+using std::isdigit;
 
 struct studentas{
     string vardas = "", pavarde = "";
@@ -40,6 +47,10 @@ void read (vector<studentas> *id);
 double vidurkis (vector<studentas> *id, int n);
 double mediana (vector<studentas> *id, int n);
 void write (vector<studentas>id);
-void autoRead (vector<studentas> *id);
-void autoWrite (vector<studentas> id);
+void autoRead (vector<studentas> *id, string failas);
+void autoWrite (vector<studentas> id, string failas, int ask);
+void testFiles (int kiekisPaz);
 bool palygintiPavardes(const studentas& a, const studentas& b);
+int ask();
+int intInput ();
+void testWrite (vector<studentas>id, int ask);
