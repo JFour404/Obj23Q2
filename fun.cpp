@@ -154,16 +154,18 @@ void write (vector<studentas>id){
 }
 
 void autoRead(vector<studentas> *id, string failas) { 
+    stringstream buferis;
+    string eil;
+
     ifstream open_f(failas);
     if (!open_f.is_open()) {
-        throw runtime_error("Could not open file " + failas);
+        throw runtime_error("Nepavyko atidaryti " + failas);
     }
-    stringstream buferis;
+    
     buferis << open_f.rdbuf();
     open_f.close();
 
-    buferis.seekg(0);
-    string eil;
+    buferis.seekg(0); //???
     getline(buferis, eil);
 
     while (getline(buferis, eil)) { 
@@ -181,7 +183,6 @@ void autoRead(vector<studentas> *id, string failas) {
 
         (*id).push_back(temp);
     }
-    buferis.clear();
 }
 
 void autoWrite (vector<studentas> id, string failas, int ask){
@@ -208,11 +209,9 @@ void autoWrite (vector<studentas> id, string failas, int ask){
     out_f.close();
 }
 
-void testFiles (int kiekisPaz){
+void nameSurname (vector<string> *names, vector<string> *surnames){
     string eil;
     stringstream buferis;
-    vector<string> names, surnames;
-
     //----------------------------------nuskaitomi vardai, naudojant buferi---------------------------------   
     ifstream fd1("names18239.txt");
     buferis << fd1.rdbuf();
@@ -221,7 +220,7 @@ void testFiles (int kiekisPaz){
     while (buferis){
         if (!buferis.eof()){
             getline (buferis, eil);
-            names.push_back(eil);
+            (*names).push_back(eil);
         } else break;
     }
     buferis.clear();
@@ -233,13 +232,16 @@ void testFiles (int kiekisPaz){
     while (buferis){
         if (!buferis.eof()){
             getline (buferis, eil);
-            surnames.push_back(eil);
+            (*surnames).push_back(eil);
         } else break;
     }
-    buferis.clear();
+}
+
+void testFiles (int kiekisPaz, vector<string> names, vector<string> surnames, int f){
 //------------------------------------pazymiu generavimas, duomenu suklaudimas-------------------------------------------------------
     stringstream outputas;
     string failas;
+    
     random_device rd;
     mt19937 genSur(rd());
     uniform_int_distribution <int> distSur(1,29600);
@@ -248,33 +250,21 @@ void testFiles (int kiekisPaz){
     mt19937 genPaz(rd());
     uniform_int_distribution <int> distPaz(1,10);
     
-    for (int f=1000; f<10000000; f=f*10) {
-        auto start = std::chrono::high_resolution_clock::now();
-        auto st=start;
-        failas = "studentai" + to_string(f) + ".txt";
-        for (int i=0; i<f; i++){ 
-            outputas << left << setw(30) <<  names[distNam(genNam)]   << left << setw(40) << surnames[distSur(genSur)];
-            for (int j=0; j<kiekisPaz; j++) outputas << left << setw(8) << distPaz(genPaz);
-            outputas << right << setw(8) << distPaz(genPaz) << "\n";
-        }
-        
-    //-------------------------------------duomenu isvedimas--------------------------------------------------------------------------------
-        ofstream out_f(failas);
-        out_f << left << setw(30) << "Vardas" << left << setw(40) << "Pavarde";
-            for (int j=0; j<kiekisPaz; j++) out_f << "Nd" << left << setw(6) << j+1;
-            out_f << right << setw(12) << "Egz.\n";
-        out_f << outputas.str();
-        out_f.close();
-        outputas.str(string());
-        outputas.clear();
-        auto end = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double> diff = end-start;
-        cout << failas << " sudarymas uztruko: " << diff.count() << " s.\n";
+    for (int i=0; i<f; i++){ 
+        outputas << left << setw(30) <<  names[distNam(genNam)]   << left << setw(40) << surnames[distSur(genSur)];
+        for (int j=0; j<kiekisPaz; j++) outputas << left << setw(8) << distPaz(genPaz);
+        outputas << right << setw(8) << distPaz(genPaz) << "\n";
     }
-
-//---------------------------------------------------------------------------------------------------------------------------------------
-names.clear();
-surnames.clear();
+    //-------------------------------------duomenu isvedimas--------------------------------------------------------------------------------
+    failas = "studentai" + to_string(f) + ".txt";    
+    ofstream out_f(failas);
+        
+    out_f << left << setw(30) << "Vardas" << left << setw(40) << "Pavarde";
+    for (int j=0; j<kiekisPaz; j++) out_f << "Nd" << left << setw(6) << j+1;
+    out_f << right << setw(12) << "Egz.\n";
+    
+    out_f << outputas.str();
+    out_f.close();
 }
 
 bool palygintiPavardes(const studentas& a, const studentas& b) {
@@ -314,6 +304,7 @@ void testWrite (vector<studentas> id, int ask){
     stringstream zaliocikai, eiliniai;
 
     if (ask==1){
+        auto start = std::chrono::high_resolution_clock::now();
         for (int i=0; i<id.size(); i++){ 
             double tempVid = (vidurkis (&id, i))*0.4 + id[i].egz*0.6;
             if (tempVid<5){
@@ -322,7 +313,11 @@ void testWrite (vector<studentas> id, int ask){
             else
                 eiliniai << left << setw(40) << id[i].pavarde << left << setw(30) << id[i].vardas << right << setw(8) << fixed << setprecision(2) << tempVid << "\n";
         } 
+        auto end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> diff = end-start;
+        cout << "Studentu rusiavimas i dvi grupes uztruko: " << diff.count() << " s.\n";
 
+        start = std::chrono::high_resolution_clock::now();
         ofstream out_z(fileBad);
         out_z << left << setw(40) << "Pavarde" << left << setw(30) << "Vardas" << right << setw(20) << "Galutinis balas (vid.)\n";
         out_z << "--------------------------------------------------------------------------------------------\n";
@@ -334,8 +329,12 @@ void testWrite (vector<studentas> id, int ask){
         out_e << "--------------------------------------------------------------------------------------------\n";
         out_e << eiliniai.str();
         out_e.close();
+        end = std::chrono::high_resolution_clock::now();
+        diff = end-start;
+        cout << "Surusiuotu studentu isvedimas i failus uztruko: " << diff.count() << " s.\n";
     }
     else {
+        auto start = std::chrono::high_resolution_clock::now();
         for (int i=0; i<id.size(); i++){ 
             double tempVid = (mediana (&id, i))*0.4 + id[i].egz*0.6;
             if (tempVid<5){
@@ -344,7 +343,11 @@ void testWrite (vector<studentas> id, int ask){
             else
                 eiliniai << left << setw(40) << id[i].pavarde << left << setw(30) << id[i].vardas << right << setw(8) << fixed << setprecision(2) << tempVid << "\n";
         } 
+        auto end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> diff = end-start;
+        cout << "Studentu rusiavimas i dvi grupes uztruko: " << diff.count() << " s.\n";
 
+        start = std::chrono::high_resolution_clock::now();
         ofstream out_z(fileBad);
         out_z << left << setw(40) << "Pavarde" << left << setw(30) << "Vardas" << right << setw(20) << "Galutinis balas (med.)\n";
         out_z << "--------------------------------------------------------------------------------------------\n";
@@ -355,6 +358,9 @@ void testWrite (vector<studentas> id, int ask){
         out_e << left << setw(40) << "Pavarde" << left << setw(30) << "Vardas" << right << setw(20) << "Galutinis balas (med.)\n";
         out_e << "--------------------------------------------------------------------------------------------\n";
         out_e << eiliniai.str();
-        out_e.close();    
+        out_e.close(); 
+        end = std::chrono::high_resolution_clock::now();
+        diff = end-start;
+        cout << "Surusiuotu studentu isvedimas i failus uztruko: " << diff.count() << " s.\n";   
     }
 }
