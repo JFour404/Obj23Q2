@@ -1,4 +1,12 @@
 # OBJ2023
+_____________________________
+PROGRAMOS PALEIDIMAS (nuo v1.0)
+1. Į pasirinktą kompiuterio aplankalą sukelkite (main.cpp, funkcijos.cpp, header.h,  names18239.txt, surnames29638.txt)
+2. Komandinėje eilutėje įveskite: make
+3. Kai programa paruošta naudoti, paleiskite ją į komandinę eilutę įvedę: ./program
+4. Naudokitės programa
+_____________________________
+
 Programa skirta suskaičiuoti galutinius studentų balus pagal pateiktus namų darbų ir egzaminų pažymius.
 
 Išpildyti keli duomenų įkelimo būdai:
