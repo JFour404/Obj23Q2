@@ -33,7 +33,7 @@ Rūšiavimui į dvi grupes naudojami nenaudojami papildomi konteineriai, skirsty
 |STUDENTU ISVEDIMAS I 2 FAILUS |   0.0012494 s.   	| 0.0024877 s.	|	0.0175972 s.	|	0.162713 s.	|	1.76581 s. |
 |FAILO TESTO LAIKAS             |   0.0107944 s. 	|	0.061578 s.	|	0.584953 s.	|	6.15949 s.	|	 67.3351 s. |
 
-v0.5 versijoje prideti 2 nauji konteineriai: list ir deque. Istestuotas veikimo greitis visu 3 konteineriu.
+v0.5 versijoje pridėti 2 nauji konteineriai: list ir deque. Ištestuotas veikimo greitis visų 3 konteinerių.
 Rūšiavimui į dvi grupes naudojami du papildomi konteineriai.
 
 *v0.5 TESTAVIMO REZULTATAI (vector, 7 paz., vid.)*
