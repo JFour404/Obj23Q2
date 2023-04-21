@@ -44,6 +44,7 @@ struct studentas{
     string vardas = "", pavarde = "";
     vector<int> paz;
     int egz;
+    double vidurkis;
 };
 
 void read (list<studentas>& id);
@@ -58,4 +59,4 @@ int ask();
 int intInput ();
 void testWrite (list<studentas>id, int ask);
 void nameSurname (vector<string>& names, vector<string>& surnames);
-
+void doubleAdd (list<studentas>& id, int ask, list<studentas>& zaliocikaiTemp, list<studentas>& eiliniaiTemp);
