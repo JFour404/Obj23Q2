@@ -3,7 +3,7 @@ Programa skirta suskaičiuoti galutinius studentų balus pagal pateiktus namų d
 
 Išpildyti keli duomenų įkelimo būdai:
 1. Įvesti studentų duomenis (Vardas, Pavardė, nd pažymiai, egzamino rezultatas) ranka komandine eilute, jei reikia pažymius programa gali sugeneruoti atsitiktinius pažymius.
-2. Gauna duomenis iš failo.
+2. Nuskaityti duomenis iš failo.
 
 Galutinį balą galima suskaičiuoti naudojant:
 1. Nd vidurkį + egzaminas.
@@ -68,9 +68,99 @@ Testai buvo atliekami naudojant:
 1. AMD Ryzen 5 5600H (Bazinis greitis:	3,30 GHz, Branduoliai:	6)
 2. RAM (16,0 GB, 3200 MHz)
 3. SSD SAMSUNG MZVLB1T0HBLR-000L2 (3,500 MB/s read, 3,000 MB/s write)
+__________________________________________________________________________________
+VERSIJA v1.0
+Sukurtos universalios funkcijos, kurios gali priimti, bet kurį konteinerį (vektorių, deką arba listą), todėl nebereikia 3 skirtingų rinkinių failų. Vartotojas programos veikimo metu pasirenka reikiamą konteinerį ir vieną iš trijų studentų dalinimo strategijų:
+1. Nenaudojant papildomų konteinerių (informacija iškarto rašoma į buferį)
+2. Naudojant vieną papildomą konteinerį 
+3. Naudojant du papildomus konteinerius
 
+***********************************
 
+*v1.0 TESTAVIMO REZULTATAI (vektorius, nenaudojant papildomu konteineriu, vidurkis, 7 paz., RAM: 5000MB)*
+| FAILAS |studentai1000.txt|studentai10000.txt|studentai100000.txt|studentai1000000.txt|studentai10000000.txt|
+| --- | - | - | - | - | - |
+| NUSKAITYMAS |0.002711 s. |0.0256903 s. |0.236511 s. |2.34629 s. |24.0425 s. |
+| RUSIAVIMAS PAGAL PAVARDES |0.0010832 s. |0.013549 s. |0.155108 s. |1.76191 s. |21.1119 s. |
+| RUSIAVIMAS I DVI GRUPES |0.001173 s. |0.0116766 s. |0.112392 s. |1.11198 s. |11.6153 s. |
+| FAILO LAIKAS |0.010018 s. |0.0617356 s. |0.569372 s. |5.86909 s. |64.3527 s. |
 
+*v1.0 TESTAVIMO REZULTATAI (vektorius, naudojant viena papildoma konteineri, pagerinta strategija, vidurkis, 7 paz., RAM: 5500MB)*
+| FAILAS |studentai1000.txt|studentai10000.txt|studentai100000.txt|studentai1000000.txt|studentai10000000.txt|
+| --- | - | - | - | - | - |
+| NUSKAITYMAS |0.0027028 s. |0.0246782 s. |0.235441 s. |2.41123 s. |24.1556 s. |
+| RUSIAVIMAS PAGAL PAVARDES |0.0010948 s. |0.0137417 s. |0.158222 s. |1.80779 s. |22.9682 s. |
+| RUSIAVIMAS I DVI GRUPES |0.0003307 s. |0.0037327 s. |0.0365803 s. |0.36683 s. |3.64902 s. |
+| FAILO LAIKAS |0.0101636 s. |0.0627191 s. |0.590514 s. |6.29908 s. |68.2113 s. |
 
+*v1.0 TESTAVIMO REZULTATAI (vektorius, naudojant du papildomus konteinerius, vidurkis, 7 paz., RAM: 6500MB)*
+| FAILAS |studentai1000.txt|studentai10000.txt|studentai100000.txt|studentai1000000.txt|studentai10000000.txt|
+| --- | - | - | - | - | - |
+| NUSKAITYMAS |0.0027168 s. |0.0247762 s. |0.238573 s. |2.40177 s. |23.843 s. |
+| RUSIAVIMAS PAGAL PAVARDES |0.0011302 s. |0.0144303 s. |0.165251 s. |1.90092 s. |22.9887 s. |
+| RUSIAVIMAS I DVI GRUPES |0.0005123 s. |0.0053064 s. |0.0451304 s. |0.478523 s. |4.47791 s. |
+| FAILO LAIKAS |0.0106038 s. |0.0656555 s. |0.619349 s. |6.52326 s. |70.1516 s. |
 
+***************************
 
+*v1.0 TESTAVIMO REZULTATAI (dekas, nenaudojant papildomu konteineriu, vidurkis, 7 paz., RAM: 5300MB)*
+| FAILAS |studentai1000.txt|studentai10000.txt|studentai100000.txt|studentai1000000.txt|studentai10000000.txt|
+| --- | - | - | - | - | - |
+| NUSKAITYMAS |0.0026373 s. |0.0237971 s. |0.231607 s. |2.41507 s. |23.8084 s. |
+| RUSIAVIMAS PAGAL PAVARDES |0.0014139 s. |0.017793 s. |0.208574 s. |2.40068 s. |29.0722 s. |
+| RUSIAVIMAS I DVI GRUPES |0.0012658 s. |0.0120928 s. |0.120148 s. |1.18774 s. |11.8951 s. |
+| FAILO LAIKAS |0.010292 s. |0.0655554 s. |0.640666 s. |6.81638 s. |74.1603 s. |
+
+*v1.0 TESTAVIMO REZULTATAI (dekas, naudojant viena papildoma konteineri, pagerinta strategija, vidurkis, 7 paz., RAM: 5500MB)*
+| FAILAS |studentai1000.txt|studentai10000.txt|studentai100000.txt|studentai1000000.txt|studentai10000000.txt|
+| --- | - | - | - | - | - |
+| NUSKAITYMAS |0.0026651 s. |0.0241406 s. |0.247151 s. |2.41402 s. |23.558 s. |
+| RUSIAVIMAS PAGAL PAVARDES |0.0014996 s. |0.0179691 s. |0.206546 s. |2.41671 s. |29.0089 s. |
+| RUSIAVIMAS I DVI GRUPES |0.0003385 s. |0.0033307 s. |0.0413612 s. |0.437471 s. |4.3521 s. |
+| FAILO LAIKAS |0.0108876 s. |0.0676111 s. |0.67856 s. |7.17366 s. |76.7392 s. |
+
+*v1.0 TESTAVIMO REZULTATAI (dekas, naudojant du papildomus konteinerius, vidurkis, 7 paz., RAM: 6800MB)*
+| FAILAS |studentai1000.txt|studentai10000.txt|studentai100000.txt|studentai1000000.txt|studentai10000000.txt|
+| --- | - | - | - | - | - |
+| NUSKAITYMAS |0.002622 s. |0.0240976 s. |0.232044 s. |2.44299 s. |23.7803 s. |
+| RUSIAVIMAS PAGAL PAVARDES |0.0013589 s. |0.0181076 s. |0.213089 s. |2.42047 s. |29.1033 s. |
+| RUSIAVIMAS I DVI GRUPES |0.00035 s. |0.0040051 s. |0.0386529 s. |0.390516 s. |3.85883 s. |
+| FAILO LAIKAS |0.0100745 s. |0.0700448 s. |0.68011 s. |7.31668 s. |78.9355 s. |
+
+**************************
+
+*v1.0 TESTAVIMO REZULTATAI (listas, nenaudojant papildomu konteineriu, vidurkis, 7 paz., RAM: 5800MB)*
+| FAILAS |studentai1000.txt|studentai10000.txt|studentai100000.txt|studentai1000000.txt|studentai10000000.txt|
+| --- | - | - | - | - | - |
+| NUSKAITYMAS |0.0030801 s. |0.0243499 s. |0.241793 s. |2.48634 s. |24.9044 s. |
+| RUSIAVIMAS PAGAL PAVARDES |0.0003329 s. |0.0050072 s. |0.0757148 s. |1.0495 s. |15.6227 s. |
+| RUSIAVIMAS I DVI GRUPES |0.001408 s. |0.0146111 s. |0.147528 s. |1.48337 s. |14.945 s. |
+| FAILO LAIKAS |0.0100008 s. |0.0582965 s. |0.573093 s. |6.17942 s. |70.5237 s. |
+
+*v1.0 TESTAVIMO REZULTATAI (listas, naudojant viena papildoma konteineri, vidurkis, 7 paz., RAM: 5800MB)*
+| FAILAS |studentai1000.txt|studentai10000.txt|studentai100000.txt|studentai1000000.txt|studentai10000000.txt|
+| --- | - | - | - | - | - |
+| NUSKAITYMAS |0.0026923 s. |0.0260556 s. |0.246379 s. |2.48509 s. |24.3623 s. |
+| RUSIAVIMAS PAGAL PAVARDES |0.0003233 s. |0.0045772 s. |0.070203 s. |1.14655 s. |15.528 s. |
+| RUSIAVIMAS I DVI GRUPES |0.0003817 s. |0.0038534 s. |0.041733 s. |0.421251 s. |4.18216 s. |
+| FAILO LAIKAS |0.0098405 s. |0.061309 s. |0.59572 s. |6.53267 s. |71.738 s. |
+
+*v1.0 TESTAVIMO REZULTATAI (listas, naudojant du papildomus konteinerius, vidurkis, 7 paz., RAM: 7500MB)*
+| FAILAS |studentai1000.txt|studentai10000.txt|studentai100000.txt|studentai1000000.txt|studentai10000000.txt|
+| --- | - | - | - | - | - |
+| NUSKAITYMAS |0.0027901 s. |0.025073 s. |0.24257 s. |2.49032 s. |24.5303 s. |
+| RUSIAVIMAS PAGAL PAVARDES |0.0003396 s. |0.0047946 s. |0.071592 s. |1.07051 s. |15.4688 s. |
+| RUSIAVIMAS I DVI GRUPES |0.0005279 s. |0.0063616 s. |0.0611666 s. |0.594323 s. |5.92961 s. |
+| FAILO LAIKAS |0.0099222 s. |0.0635894 s. |0.62989 s. |6.77458 s. |75.1002 s. |
+
+*****************************
+
+IŠVADOS:
+1. mažiausiai RAM - nenaudojant papildomų konteinerių
+2. daugiausiai RAM - naudojant 2 papildomus konteinerius
+3. greičiausia strategija - nenaudojant papildomų konteinerių
+4. lėčiausia - naudojant du papildomus
+5. greičiausias konteineris - vektorius
+6. lėčiausias - dekas
+7. vektorius reikalauja mažiausiai RAM
+8. listas reikalauja daugiausiai RAM
