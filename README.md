@@ -13,6 +13,7 @@ Rezulatų išvedimas galimas į konsolę arba failą. Rezultatai surūšiuojami 
 
 
 v0.4 versija suteikia galimybę testuoti programos veikimo greitį. 
+Rūšiavimui į dvi grupes naudojami nenaudojami papildomi konteineriai, skirstymas vyksta iškart į buferį.
 
 *v0.4 TESTAVIMO REZULTATAI (7 paz. vid.)*
 | FAILAS | studentai1000.txt | studentai10000.txt | studentai100000.txt | studentai1000000.txt | studentai10000000.txt| 
@@ -33,34 +34,35 @@ v0.4 versija suteikia galimybę testuoti programos veikimo greitį.
 |FAILO TESTO LAIKAS             |   0.0107944 s. 	|	0.061578 s.	|	0.584953 s.	|	6.15949 s.	|	 67.3351 s. |
 
 v0.5 versijoje prideti 2 nauji konteineriai: list ir deque. Istestuotas veikimo greitis visu 3 konteineriu.
+Rūšiavimui į dvi grupes naudojami du papildomi konteineriai.
 
 *v0.5 TESTAVIMO REZULTATAI (vector, 7 paz., vid.)*
 | FAILAS | studentai1000.txt | studentai10000.txt | studentai100000.txt | studentai1000000.txt | studentai10000000.txt| 
 | ------ | ----------------- | ------------------ | ------------------- | -------------------- | ---------------------|
-| NUSKAITYMAS 			| 0.0026161 s. 	| 0.0236885 s.	| 0.225701 s.		| 2.35053 s. 		| 23.1969 s. |
-|RUSIAVIMAS PAGAL PAVARDES 	| 0.0010425 s.	| 0.0131544 s.	| 0.154814 s.		| 1.75592 s.		| 21.1027 s. |
-|RUSIAVIMAS I DVI GRUPES  		| 0.0008217 s.	| 0.0079533 s.	| 0.0799499 s.	| 0.79476 s.		| 7.99026 s. |
+| NUSKAITYMAS |0.0026745 s. |0.0254801 s. |0.230089 s. |2.36638 s. |23.5728 s. |
+| RUSIAVIMAS PAGAL PAVARDES |0.0010068 s. |0.0129677 s. |0.148798 s. |1.68099 s. |20.0706 s. |
+| RUSIAVIMAS I DVI GRUPES |0.0005815 s. |0.0053484 s. |0.0458798 s. |0.471971 s. |4.49471 s. |
 
 
 *v0.5 TESTAVIMO REZULTATAI (list, 7 paz., vid.)*
 | FAILAS | studentai1000.txt | studentai10000.txt | studentai100000.txt | studentai1000000.txt | studentai10000000.txt| 
 | ------ | ----------------- | ------------------ | ------------------- | -------------------- | ---------------------|
-| NUSKAITYMAS 			| 0.0082148 s. 	| 0.0272699 s.	| 0.243159 s.		| 2.48977 s. 		| 24.73 s. |
-|RUSIAVIMAS PAGAL PAVARDES 	| 0.0003096 s.	| 0.0043556 s.	| 0.069723 s.		| 1.06015 s.		| 16.0136 s. |
-|RUSIAVIMAS I DVI GRUPES  		| 0.0009534 s.	| 0.008776 s.		| 0.0876484 s.	| 0.87294 s.		| 8.90919 s. |
+| NUSKAITYMAS |0.0026035 s. |0.0257713 s. |0.235164 s. |2.43475 s. |23.6985 s. |
+| RUSIAVIMAS PAGAL PAVARDES |0.0003024 s. |0.0047881 s. |0.0683193 s. |1.04437 s. |15.5723 s. |
+| RUSIAVIMAS I DVI GRUPES |0.0004904 s. |0.0054576 s. |0.0560885 s. |0.568864 s. |5.62757 s. |
 
 
 *v0.5 TESTAVIMO REZULTATAI (deque, 7 paz., vid.)*
 | FAILAS | studentai1000.txt | studentai10000.txt | studentai100000.txt | studentai1000000.txt | studentai10000000.txt| 
 | ------ | ----------------- | ------------------ | ------------------- | -------------------- | ---------------------|
-| NUSKAITYMAS 			| 0.0026564 s. 	| 0.0237203 s.	| 0.240121 s.		| 2.42459 s. 		| 23.5407 s. |
-|RUSIAVIMAS PAGAL PAVARDES 	| 0.0014029 s.	| 0.017555 s.		| 0.207501 s.		| 2.34581 s.		| 28.7988 s. |
-|RUSIAVIMAS I DVI GRUPES  		| 0.0011798 s.	| 0.0096889 s.	| 0.0864332 s.	| 0.852244 s.		| 8.529 s. 	|
+| NUSKAITYMAS |0.0026441 s. |0.0231419 s. |0.226863 s. |2.34653 s. |23.419 s. |
+| RUSIAVIMAS PAGAL PAVARDES |0.0012762 s. |0.0164112 s. |0.196054 s. |2.24799 s. |26.8782 s. |
+| RUSIAVIMAS I DVI GRUPES |0.0003843 s. |0.0043138 s. |0.0419994 s. |0.453128 s. |4.16894 s. |
 
 *v0.5 ISVADOS (kuris konteineris greičiausiai atlieka tam tikrą uzduotį*
 1. NUSKAITYMAS 			-> vec
 2. RUSIAVIMAS PAGAL PAVARDES 	-> list
-3. RUSIAVIMAS I DVI GRUPES	-> vec
+3. RUSIAVIMAS I DVI GRUPES	-> deq
 
 Testai buvo atliekami naudojant:
 1. AMD Ryzen 5 5600H (Bazinis greitis:	3,30 GHz, Branduoliai:	6)
