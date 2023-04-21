@@ -1,5 +1,5 @@
-#include "headerDeq.h"
-#include "funkcijosDeq.cpp"
+#include "header.h"
+#include "funkcijos.cpp"
 
 int main(){
     int testPazNum, testON, genFiles;

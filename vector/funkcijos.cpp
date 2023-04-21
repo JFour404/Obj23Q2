@@ -299,68 +299,57 @@ int ask () {
     return stoi(input);
 }
 
+void doubleAdd (vector<studentas>& id, int ask, vector<studentas>& zaliocikaiTemp, vector<studentas>& eiliniaiTemp) {    
+    for (int i=0; i<id.size(); i++){
+        if (ask == 1)
+            id[i].vidurkis = (vidurkis (&id, i))*0.4 + id[i].egz*0.6;
+         else
+            id[i].vidurkis = (mediana (&id, i))*0.4 + id[i].egz*0.6;
+        if (id[i].vidurkis<5){
+            zaliocikaiTemp.push_back(id[i]);
+        } else {
+            eiliniaiTemp.push_back(id[i]);
+        }
+    }
+}
+
 void testWrite (vector<studentas> id, int ask){
     string fileGood = "eiliniai"+to_string(id.size())+".txt" , fileBad = "zaliocikai"+to_string(id.size())+".txt";
     stringstream zaliocikai, eiliniai;
-
-    if (ask==1){
-        auto start = std::chrono::high_resolution_clock::now();
-        for (int i=0; i<id.size(); i++){ 
-            double tempVid = (vidurkis (&id, i))*0.4 + id[i].egz*0.6;
-            if (tempVid<5){
-                zaliocikai << left << setw(40) << id[i].pavarde << left << setw(30) << id[i].vardas << right << setw(8) << fixed << setprecision(2) << tempVid << "\n";
-            } 
-            else
-                eiliniai << left << setw(40) << id[i].pavarde << left << setw(30) << id[i].vardas << right << setw(8) << fixed << setprecision(2) << tempVid << "\n";
-        } 
-        auto end = std::chrono::high_resolution_clock::now();
+    vector<studentas> zaliocikaiTemp, eiliniaiTemp;
+    auto start = std::chrono::high_resolution_clock::now();
+    doubleAdd (id, ask, zaliocikaiTemp, eiliniaiTemp);
+    auto end = std::chrono::high_resolution_clock::now();    
+        
+        for (int i=0; i<zaliocikaiTemp.size(); i++) 
+            zaliocikai << left << setw(40) << zaliocikaiTemp[i].pavarde << left << setw(30) << zaliocikaiTemp[i].vardas << right << setw(8) << fixed << setprecision(2) << zaliocikaiTemp[i].vidurkis << "\n";
+             
+        for (int i=0; i<eiliniaiTemp.size(); i++) 
+            eiliniai << left << setw(40) << eiliniaiTemp[i].pavarde << left << setw(30) << eiliniaiTemp[i].vardas << right << setw(8) << fixed << setprecision(2) << eiliniaiTemp[i].vidurkis << "\n";
+        
+        
         std::chrono::duration<double> diff = end-start;
         cout << left << setw(35) << "RUSIAVIMAS I DVI GRUPES" << diff.count() << " s.\n";
 
         // start = std::chrono::high_resolution_clock::now();
         ofstream out_z(fileBad);
-        out_z << left << setw(40) << "Pavarde" << left << setw(30) << "Vardas" << right << setw(20) << "Galutinis balas (vid.)\n";
+        out_z << left << setw(40) << "Pavarde" << left << setw(30) << "Vardas" << right << setw(20);
+        if (ask==1) out_z << "Galutinis balas (vid.)\n";
+        else out_z << "Galutinis balas (med.)\n";
         out_z << "--------------------------------------------------------------------------------------------\n";
         out_z << zaliocikai.str();
         out_z.close();
 
         ofstream out_e(fileGood);
-        out_e << left << setw(40) << "Pavarde" << left << setw(30) << "Vardas" << right << setw(20) << "Galutinis balas (vid.)\n";
+        out_e << left << setw(40) << "Pavarde" << left << setw(30) << "Vardas" << right << setw(20);
+        if (ask==1) out_e << "Galutinis balas (vid.)\n";
+        else out_e << "Galutinis balas (med.)\n";
         out_e << "--------------------------------------------------------------------------------------------\n";
         out_e << eiliniai.str();
         out_e.close();
         // end = std::chrono::high_resolution_clock::now();
         // diff = end-start;
         // cout << left << setw(35) << "STUDENTU ISVEDIMAS I 2 FAILUS" << diff.count() << " s.\n";
-    }
-    else {
-        auto start = std::chrono::high_resolution_clock::now();
-        for (int i=0; i<id.size(); i++){ 
-            double tempVid = (mediana (&id, i))*0.4 + id[i].egz*0.6;
-            if (tempVid<5){
-                zaliocikai << left << setw(40) << id[i].pavarde << left << setw(30) << id[i].vardas << right << setw(8) << fixed << setprecision(2) << tempVid << "\n";
-            } 
-            else
-                eiliniai << left << setw(40) << id[i].pavarde << left << setw(30) << id[i].vardas << right << setw(8) << fixed << setprecision(2) << tempVid << "\n";
-        } 
-        auto end = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double> diff = end-start;
-        cout << left << setw(35) << "RUSIAVIMAS I DVI GRUPES" << diff.count() << " s.\n";
-
-        // start = std::chrono::high_resolution_clock::now();
-        ofstream out_z(fileBad);
-        out_z << left << setw(40) << "Pavarde" << left << setw(30) << "Vardas" << right << setw(20) << "Galutinis balas (med.)\n";
-        out_z << "--------------------------------------------------------------------------------------------\n";
-        out_z << zaliocikai.str();
-        out_z.close();
-
-        ofstream out_e(fileGood);
-        out_e << left << setw(40) << "Pavarde" << left << setw(30) << "Vardas" << right << setw(20) << "Galutinis balas (med.)\n";
-        out_e << "--------------------------------------------------------------------------------------------\n";
-        out_e << eiliniai.str();
-        out_e.close(); 
-        // end = std::chrono::high_resolution_clock::now();
-        // diff = end-start;
-        // cout << left << setw(35) << "STUDENTU ISVEDIMAS I 2 FAILUS" << diff.count() << " s.\n";   
-    }
+    
+    
 }
