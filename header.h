@@ -42,51 +42,42 @@ using std::list;
 using std::advance;
 using std::deque;
 using std::remove_if;
+using std::istream;
 
-struct studentas{
-    string vardas = "", pavarde = "";
-    vector<int> paz;
-    int egz;
-    double vidurkis;
-};
+#include "studentas.h"
+
+int ask ();
+string askCommand (int select);
+int intInput ();
+string askCommand (int select);
+string fileSelect ();
+template <typename Container>
+void rusiavimasPav (Container& id);
 
 template <typename Container>
-void read (Container& id);
+void cmdRankinis (Container &id, int baloSkc, int pazPildymas, int kiekis);
 template <typename Container>
-void write (Container id);
+void writeToCmd (Container& id, int baloSkc);
+void writeToSingle (ifstream& is, int baloSkc);
+
 template <typename Container>
-void autoRead (Container& id, string failas);
-template <typename Container>
-void autoWrite (Container id, string failas, int ask);
-template <typename Container>
-void testWrite (Container id, int ask, string strat, string comm, int boost, vector<double> &rusiavimasIDviGrupes);
-template <typename Container>
-void containerLess (Container id, stringstream& zaliocikai, stringstream& eiliniai, int ask);
+void containerLess (Container id, stringstream& zaliocikai, stringstream& eiliniai);
 template <typename Container, typename ContainerTemp>
-void singleAdd (Container& id, int ask, ContainerTemp& zaliocikaiTemp);
+void singleAdd (Container& id, ContainerTemp& zaliocikaiTemp);
 template <typename Container, typename ContainerTemp>
-void singleAddEnhanced (Container& id, int ask, ContainerTemp& zaliocikaiTemp);
+void singleAddEnhanced (Container& id, ContainerTemp& zaliocikaiTemp);
 template <typename Container, typename ContainerTemp>
 void createBuff (Container good, ContainerTemp bad, stringstream& zaliocikai, stringstream& eiliniai);
 template <typename Container, typename ContainerTemp>
-void doubleAdd (Container& id, int ask, ContainerTemp& zaliocikaiTemp, ContainerTemp& eiliniaiTemp);
-
-void pazNum(string failas, int &testPazNum);
-
-void testFiles (int kiekisPaz, vector<string> names, vector<string> surnames, int f);
-int ask();
-int intInput ();
-bool palygintiPavardes(const studentas& a, const studentas& b);
+void doubleAdd (Container id, ContainerTemp& zaliocikaiTemp, ContainerTemp& eiliniaiTemp);
 void nameSurname (vector<string>& names, vector<string>& surnames);
-string askCommand (int select);
-void rezSpausdinimas (vector<double> nuskaitymas, vector<double> rusiavimasPglPavardes, vector<double> rusiavimasIDviGrupes, vector<string> failoPav, int PazNum, string comm, string strat, int boost, int baloSkc, vector<double> &fileTime);
+void testFiles (int kiekisPaz, vector<string> names, vector<string> surnames, int f);
 
 template <typename Container>
-double vidurkisV2 (Container& id);
+void fileBasic (Container& id, int baloSkc);
 template <typename Container>
-double medianaV2(Container& id);
+void readFromFile(Container& id, string failas);
 
-template <typename Container>
-void prep (Container& id, int testON, int genFiles, int &testPazNum, int baloSkc, string strat, string comm, int boost, vector<double> &nuskaitymas, vector<double> &rusiavimasPglPavardes, vector<double> &rusiavimasIDviGrupes, vector<string> &failoPav, vector<double> &fileTime);
-
+template <typename Container> 
+void fileFull (Container& id, int baloSkc, string failas, string strat, string comm);
 
