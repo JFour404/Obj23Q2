@@ -1,6 +1,8 @@
 # OBJ2023
-PROGRAMOS PALEIDIMAS (nuo v1.0)
-1. Į pasirinktą kompiuterio aplankalą sukelkite (main.cpp, funkcijos.cpp, header.h,  names18239.txt, surnames29638.txt)
+PROGRAMOS PALEIDIMAS (nuo v1.1)
+1. Į pasirinktą kompiuterio direktoriją įkelkite source (programos kodo failai) ir data (duomenu failai) direktorijas
+NOTE! programa neveiks, jei nebus laikomasi numatytos failų struktūros
+3. Atidarykite source direktoriją naudojant terminalą 
 2. Komandinėje eilutėje įveskite: make
 3. Kai programa paruošta naudoti, paleiskite ją į komandinę eilutę įvedę: ./program
 4. Naudokitės programa
