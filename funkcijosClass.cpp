@@ -242,7 +242,7 @@ void nameSurname (vector<string>& names, vector<string>& surnames){
     }
 }
 void testFiles (int kiekisPaz, vector<string> names, vector<string> surnames, int f){
-//------------------------------------pazymiu generavimas, duomenu suklaudimas-------------------------------------------------------
+//------------------------------------pazymiu generavimas, duomenu suglaudimas-------------------------------------------------------
     stringstream outputas;
     string failas;
     
@@ -271,7 +271,7 @@ void testFiles (int kiekisPaz, vector<string> names, vector<string> surnames, in
     out_f.close();
 }
 template <typename Container> 
-void fileFull (Container& id, int baloSkc, string failas, string strat, string comm) {
+void fileFull (Container& id, int baloSkc, string failas, string strat, string comm, int f, vector<double> &nuskaitymas, vector<double> &rusiavimasPglPavardes, vector<double> &rusiavimasIDviGrupes, vector<string> &failoPav, vector<double> &fileTime, int &PazNum) {
     auto start = std::chrono::high_resolution_clock::time_point();
     auto end = std::chrono::high_resolution_clock::time_point();
     auto begin = std::chrono::high_resolution_clock::time_point();
@@ -282,13 +282,20 @@ void fileFull (Container& id, int baloSkc, string failas, string strat, string c
     stringstream zaliocikai, eiliniai;
     
     cout << left << setw(35) <<  "FAILAS" <<  failas << "\n";
-    //failoPav.push_back(failas);
+    failoPav.push_back(failas);
     
      start = std::chrono::high_resolution_clock::now();
     readFromFile(id, failas);
      end = std::chrono::high_resolution_clock::now();
      diff = end-start;
      cout << left << setw(35) << "NUSKAITYMAS" << diff.count() << " s.\n";
+    nuskaitymas.push_back(diff.count());
+    if (PazNum == 0){
+        auto it = id.begin();
+        vector<int>temp = it->Paz();
+        PazNum = temp.size();
+    }    
+        
 
     int contSize = id.size();
     for (auto it = id.begin(); it != id.end(); ++it)
@@ -299,7 +306,7 @@ void fileFull (Container& id, int baloSkc, string failas, string strat, string c
      end = std::chrono::high_resolution_clock::now();
      diff = end-start;
      cout << left << setw(35) << "RUSIAVIMAS PAGAL PAVARDES" << diff.count() << " s.\n";
-     //rusiavimasPglPavardes.push_back(diff.count());
+     rusiavimasPglPavardes.push_back(diff.count());
 
     if (strat == "/0c") {
             start = std::chrono::high_resolution_clock::now();
@@ -310,7 +317,9 @@ void fileFull (Container& id, int baloSkc, string failas, string strat, string c
         if (comm == "/v"){
             start = std::chrono::high_resolution_clock::now();
             vector <studentas> zaliocikaiTemp;
+            zaliocikaiTemp.reserve(f*0.45);
             singleAddEnhanced (id, zaliocikaiTemp);
+            zaliocikaiTemp.shrink_to_fit();
             end = std::chrono::high_resolution_clock::now();
             createBuff (id, zaliocikaiTemp, zaliocikai, eiliniai);
         } else
@@ -334,7 +343,11 @@ void fileFull (Container& id, int baloSkc, string failas, string strat, string c
             start = std::chrono::high_resolution_clock::now();
             vector <studentas> zaliocikaiTemp;
             vector <studentas> eiliniaiTemp;
+            zaliocikaiTemp.reserve(f*0.45);
+            eiliniaiTemp.reserve(f*0.65);
             doubleAdd (id, zaliocikaiTemp, eiliniaiTemp);
+            zaliocikaiTemp.shrink_to_fit();
+            eiliniaiTemp.shrink_to_fit();
             end = std::chrono::high_resolution_clock::now();
             createBuff (eiliniaiTemp, zaliocikaiTemp, zaliocikai, eiliniai);
         } else
@@ -357,7 +370,8 @@ void fileFull (Container& id, int baloSkc, string failas, string strat, string c
     }
     diff = end-start;
     cout << left << setw(35) << "RUSIAVIMAS I DVI GRUPES" << diff.count() << " s.\n";
-        
+    rusiavimasIDviGrupes.push_back(diff.count());
+
         string fileGood = "eiliniai"+to_string(contSize)+".txt" , fileBad = "zaliocikai"+to_string(contSize)+".txt";
         ofstream out_z("../data/" + fileBad);
         out_z << left << setw(40) << "Pavarde" << left << setw(30) << "Vardas";
@@ -383,7 +397,61 @@ void fileFull (Container& id, int baloSkc, string failas, string strat, string c
      diff = finish-begin;
      cout << left << setw(35) << "FAILO TESTO LAIKAS" << diff.count() << " s.\n";
      cout << "------------------------------------------------------------\n\n";
-     //fileTime.push_back(diff.count());
+     fileTime.push_back(diff.count());
+}
+
+void rezSpausdinimas (vector<double> nuskaitymas, vector<double> rusiavimasPglPavardes, vector<double> rusiavimasIDviGrupes, 
+vector<string> failoPav, int PazNum, string comm, string strat, int baloSkc, vector<double> &fileTime){
+    ofstream out_r("rezultatai.txt");
+    out_r << "*v1.0 TESTAVIMO REZULTATAI (";
+    
+    if (comm=="/v")
+        out_r << "vektorius, ";
+    else if (comm=="/d")
+        out_r << "dekas, ";
+    else if (comm=="/l")
+        out_r << "listas, ";
+    
+    if (strat=="/0c")
+        out_r << "nenaudojant papildomu konteineriu, ";
+    else if (strat=="/1c")
+        out_r << "naudojant viena papildoma konteineri, ";
+    else if (strat=="/2c")
+        out_r << "naudojant du papildomus konteinerius, ";
+
+
+    if (baloSkc==0)
+        out_r << "mediana, ";
+    else if (baloSkc==1)
+        out_r << "vidurkis, ";
+    
+    out_r << PazNum << " paz.)*\n";
+
+    out_r << "|" << " FAILAS " << "|";
+    for (int i=0; i<failoPav.size(); i++)
+        out_r << failoPav[i] << "|";
+    out_r << "\n";
+    out_r << "|" << " --- " << "|";
+    for (int i=0; i<failoPav.size(); i++)
+        out_r << " - " << "|";
+    out_r << "\n";
+    out_r << "|" << " NUSKAITYMAS " << "|";
+    for (int i=0; i<failoPav.size(); i++)
+        out_r << nuskaitymas[i] << " s. |";
+    out_r << "\n";
+    out_r << "|" << " RUSIAVIMAS PAGAL PAVARDES " << "|";
+    for (int i=0; i<failoPav.size(); i++)
+        out_r << rusiavimasPglPavardes[i] << " s. |";
+    out_r << "\n";
+    out_r << "|" << " RUSIAVIMAS I DVI GRUPES " << "|";
+    for (int i=0; i<failoPav.size(); i++)
+        out_r << rusiavimasIDviGrupes[i] << " s. |";
+    out_r << "\n";
+    out_r << "|" << " FAILO LAIKAS " << "|";
+    for (int i=0; i<failoPav.size(); i++)
+        out_r << fileTime[i] << " s. |";
+    out_r << "\n";
+    out_r.close();
 }
 
 template void cmdRankinis (vector<studentas>&, int, int, int);
@@ -392,6 +460,6 @@ template void cmdRankinis (list<studentas>&, int, int, int);
 template void fileBasic (vector<studentas>&, int);
 template void fileBasic (deque<studentas>&, int);
 template void fileBasic (list<studentas>&, int);
-template void fileFull (vector<studentas>&, int, string, string, string);
-template void fileFull (deque<studentas>&, int, string, string, string);
-template void fileFull (list<studentas>&, int, string, string, string);
+template void fileFull (vector<studentas>&, int, string, string, string, int, vector<double>&, vector<double>&, vector<double>&, vector<string>&, vector<double>&, int&);
+template void fileFull (deque<studentas>&, int, string, string, string, int, vector<double>&, vector<double>&, vector<double>&, vector<string>&, vector<double>&, int&);
+template void fileFull (list<studentas>&, int, string, string, string, int, vector<double>&, vector<double>&, vector<double>&, vector<string>&, vector<double>&, int&);
