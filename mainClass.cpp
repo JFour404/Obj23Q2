@@ -38,6 +38,9 @@ int main () {
         cout << "\nAr norite studentus isskaidyti i dvi grupes? (1 - taip, 0 - ne)\n";
         int skaidymas = ask();
         if (skaidymas == 1){
+            vector<double> nuskaitymas, rusiavimasPglPavardes, rusiavimasIDviGrupes, fileTime;
+            vector<string> failoPav;
+            int PazNum = 0;
             cout << "\nNorite pasirinkti faila (0) ar naudoti testavimo failus(1)?\n(studentai1000.txt, studentai10000.txt, studentai100000.txt, studentai1000000.txt, studentai10000000.txt)\n";
             int defaultFiles = ask();
             if (defaultFiles == 1){
@@ -58,20 +61,24 @@ int main () {
             allS = std::chrono::high_resolution_clock::now();
             if (defaultFiles == 0){
                 string failas = fileSelect();
+                    size_t pos = failas.find_first_of("0123456789");
+                    string numberStr = failas.substr(pos);
+                    int f = stoi(numberStr);
                 cout << "\n" << "############################################################\n";  
                 cout << right << setw (40) << "TESTAVIMO REZULTATAI\n";
                 cout << "############################################################\n";
                 if (conType == "/v"){
                     vector <studentas> id;
-                    fileFull (id, baloSkc, failas, dalinimoStrat, conType);
+                    id.reserve(f);
+                    fileFull (id, baloSkc, failas, dalinimoStrat, conType, f, nuskaitymas, rusiavimasPglPavardes, rusiavimasIDviGrupes, failoPav, fileTime, PazNum);
                 } else
                 if (conType == "/d"){
                     deque <studentas> id;
-                    fileFull (id, baloSkc, failas, dalinimoStrat, conType);
+                    fileFull (id, baloSkc, failas, dalinimoStrat, conType, f, nuskaitymas, rusiavimasPglPavardes, rusiavimasIDviGrupes, failoPav, fileTime, PazNum);
                 } else
                 if (conType == "/l"){
                     list<studentas> id;
-                    fileFull (id, baloSkc, failas, dalinimoStrat, conType);
+                    fileFull (id, baloSkc, failas, dalinimoStrat, conType, f, nuskaitymas, rusiavimasPglPavardes, rusiavimasIDviGrupes, failoPav, fileTime, PazNum);
                 }
             } else {
                 cout << "\n" << "############################################################\n";  
@@ -81,18 +88,24 @@ int main () {
                     string failas = "studentai" + to_string(f) + ".txt";
                     if (conType == "/v"){
                         vector <studentas> id;
-                        fileFull (id, baloSkc, failas, dalinimoStrat, conType);
+                        id.reserve(f);
+                        fileFull (id, baloSkc, failas, dalinimoStrat, conType, f, nuskaitymas, rusiavimasPglPavardes, rusiavimasIDviGrupes, failoPav, fileTime, PazNum);
                     } else
                     if (conType == "/d"){
                         deque <studentas> id;
-                        fileFull (id, baloSkc, failas, dalinimoStrat, conType);
+                        fileFull (id, baloSkc, failas, dalinimoStrat, conType, f, nuskaitymas, rusiavimasPglPavardes, rusiavimasIDviGrupes, failoPav, fileTime, PazNum);
                     } else
                     if (conType == "/l"){
                         list<studentas> id;
-                        fileFull (id, baloSkc, failas, dalinimoStrat, conType);
+                        fileFull (id, baloSkc, failas, dalinimoStrat, conType, f, nuskaitymas, rusiavimasPglPavardes, rusiavimasIDviGrupes, failoPav, fileTime, PazNum);
                     }
                 }
             } 
+        auto allF = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> diff = allF - allS;
+        cout << left << setw(35) << "VISA PROGRAMA VEIKE" << diff.count() << " s.\n";
+        cout << "############################################################\n";
+        rezSpausdinimas (nuskaitymas, rusiavimasPglPavardes, rusiavimasIDviGrupes, failoPav, PazNum, conType, dalinimoStrat, baloSkc, fileTime);
         }else {
             if (conType == "/v"){
                 vector <studentas> id;
@@ -108,10 +121,6 @@ int main () {
             }
         }
     }
-    auto allF = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> diff = allF - allS;
-    cout << left << setw(35) << "VISA PROGRAMA VEIKE" << diff.count() << " s.\n";
-    cout << "############################################################\n";
     return 0;
 }
 
