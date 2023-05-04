@@ -1,7 +1,0 @@
-*v1.0 TESTAVIMO REZULTATAI (vektorius, naudojant viena papildoma konteineri, mediana, 7 paz.)*
-| FAILAS |studentai1000.txt|
-| --- | - |
-| NUSKAITYMAS |0.003579 s. |
-| RUSIAVIMAS PAGAL PAVARDES |0.000779 s. |
-| RUSIAVIMAS I DVI GRUPES |0.000244 s. |
-| FAILO LAIKAS |0.013858 s. |
