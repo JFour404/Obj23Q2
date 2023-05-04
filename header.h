@@ -79,5 +79,7 @@ template <typename Container>
 void readFromFile(Container& id, string failas);
 
 template <typename Container> 
-void fileFull (Container& id, int baloSkc, string failas, string strat, string comm);
+void fileFull (Container& id, int baloSkc, string failas, string strat, string comm, int f, vector<double> &nuskaitymas, vector<double> &rusiavimasPglPavardes, vector<double> &rusiavimasIDviGrupes, vector<string> &failoPav, vector<double> &fileTime, int &PazNum);
 
+void rezSpausdinimas (vector<double> nuskaitymas, vector<double> rusiavimasPglPavardes, vector<double> rusiavimasIDviGrupes, 
+vector<string> failoPav, int PazNum, string comm, string strat, int baloSkc, vector<double> &fileTime);
