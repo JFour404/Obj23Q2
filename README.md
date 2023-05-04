@@ -1,12 +1,49 @@
-# OBJ2023
+# OBJ2023Q2
 PROGRAMOS PALEIDIMAS (nuo v1.1)
 1. Į pasirinktą kompiuterio direktoriją įkelkite source (programos kodo failai) ir data (duomenu failai) direktorijas
 NOTE! programa neveiks, jei nebus laikomasi numatytos failų struktūros
 3. Atidarykite source direktoriją naudojant terminalą 
-2. Komandinėje eilutėje įveskite: make
-3. Kai programa paruošta naudoti, paleiskite ją į komandinę eilutę įvedę: ./program
+2. Komandinėje eilutėje įveskite: make 
+(bus naudojamas O3 optimizavimo flag'as, norėdami jį pakeisti veskite: make OPT=<optimizavimo vėliavėlė (pvz. O2 ar O1)>)
+3. Kai programa bus paruošta naudoti, paleiskite ją į komandinę eilutę įvedę: ./program
 4. Naudokitės programa
+_________________________________
+PALYGINIMAS v1.0 VS v1.1
 
+*v1.1 TESTAVIMO REZULTATAI (vektorius, naudojant viena papildoma konteineri, vidurkis, 7 paz.)*
+| FAILAS |studentai100000.txt|studentai1000000.txt|
+| --- | - | - |
+| NUSKAITYMAS |0.152425 s. |1.73667 s. |
+| RUSIAVIMAS PAGAL PAVARDES |0.0876523 s. |1.04264 s. |
+| RUSIAVIMAS I DVI GRUPES |0.0157844 s. |0.143365 s. |
+| FAILO LAIKAS |0.360032 s. |3.86091 s. |
+
+*v1.0 TESTAVIMO REZULTATAI (vektorius, naudojant viena papildoma konteineri, pagerinta strategija, vidurkis, 7 paz.)*
+| FAILAS |studentai100000.txt|studentai1000000.txt|
+| --- | - | - |
+| NUSKAITYMAS |0.166575 s. |1.85288 s. |
+| RUSIAVIMAS PAGAL PAVARDES |0.0385877 s. |0.435087 s. |
+| RUSIAVIMAS I DVI GRUPES |0.0147071 s. |0.122744 s. |
+| FAILO LAIKAS |0.344409 s. |3.62993 s. |
+
+Išvados:
+Bendras laikas nežymiai pablogėjo perėjus prie klasių, didžiausias našumo skirtumas matomas studentų rūšiavime pagal pavardes.
+*****************************
+OPTIMIZAVIMO FLAG'Ų TESTAVIMAS
+
+*v1.1 TESTAVIMO REZULTATAI (vektorius, naudojant viena papildoma konteineri, vidurkis, 7 paz., studentai1000000.txt)*
+| FLAG |O1|O2|O3|
+| --- | - | - | - |
+| .exe DYDIS | 327KB | 305KB | 315KB |
+| NUSKAITYMAS |1.71352 s. |1.59184 s. |1.59888 s. |
+| RUSIAVIMAS PAGAL PAVARDES |1.07885 s. |1.04279 s. |1.20678 s. |
+| RUSIAVIMAS I DVI GRUPES |0.147452 s. |0.144691 s. |0.152278 s. |
+| FAILO LAIKAS |3.92889 s. |3.87678 s. |3.94755 s. |
+
+Išvados:
+1. Mažiausiai vietos paleidžiamasis failas užima naudojant O2 flag'ą
+2. Daugiausiai vietos paleidžiamasis failas užima naudojant O1 flag'ą
+3. Sparčiausiai programa veikia naudojant O2 flag'ą
 _____________________________
 PROGRAMOS PALEIDIMAS (nuo v1.0)
 1. Į pasirinktą kompiuterio aplankalą sukelkite (main.cpp, funkcijos.cpp, header.h,  names18239.txt, surnames29638.txt)
