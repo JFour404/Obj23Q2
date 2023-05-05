@@ -9,7 +9,7 @@ private:
     double m_GalBalas;
 public:
     //kostruktoriai
-    studentas () : m_Vardas(""), m_Pavarde("") {}
+    studentas () : m_Vardas(""), m_Pavarde(""), m_GalBalas(0) {}
     studentas (string vardas, string pavarde, vector<int> paz, int egz) : m_Vardas(vardas), m_Pavarde(pavarde), m_Paz(paz), m_Egz(egz) {}
     studentas (istream& is, int baloSkc, int pazPildymas, int kiekis);
     studentas (stringstream& ss);
@@ -32,6 +32,59 @@ public:
     double vidurkis();
     double mediana();
     void randomGradeGen(int kiekis);
+
+    //copy c-tor
+    studentas (const studentas& other) :
+        m_Vardas(other.m_Vardas), 
+        m_Pavarde(other.m_Pavarde),
+        m_Paz(other.m_Paz),
+        m_Egz(other.m_Egz),
+        m_GalBalas(other.m_GalBalas) {}
+
+    //move c-tor
+    studentas (studentas&& other) :
+        m_Vardas(other.m_Vardas), 
+        m_Pavarde(other.m_Pavarde),
+        m_Paz(std::move(other.m_Paz)),
+        m_Egz(other.m_Egz),
+        m_GalBalas(other.m_GalBalas) {
+            other.m_Vardas = "";
+            other.m_Pavarde = "";
+            other.m_Egz = 0;
+            other.m_GalBalas = 0;
+        }
+    
+    //copy =
+    studentas& operator= (const studentas& other){
+        if (&other == this) return *this;
+
+        m_Vardas = other.m_Vardas;
+        m_Pavarde = other.m_Pavarde;
+        m_Paz = other.m_Paz;
+        m_Egz = other.m_Egz;
+        m_GalBalas = other.m_GalBalas;
+
+        return *this;
+    }
+
+    //move =
+    studentas& operator= (studentas&& other){
+        if (&other == this) return *this;
+
+        m_Vardas = other.m_Vardas;
+        m_Pavarde = other.m_Pavarde;
+        m_Paz = std::move(other.m_Paz);
+        m_Egz = other.m_Egz;
+        m_GalBalas = other.m_GalBalas;
+        other.~studentas();
+            other.m_Vardas = "";
+            other.m_Pavarde = "";
+            other.m_Egz = 0;
+            other.m_GalBalas = 0;
+        return *this;
+    }
+
+    
 
     ~studentas () {}
 };

@@ -1,6 +1,42 @@
 #include "header.h"
 
 int main () {
+    //-----------------ruleOf5Test----------------
+    vector<int> paz = {10, 9, 8};
+    studentas s1("Jonas", "Jonaitis", paz, 7);
+    cout << "s1: " << s1.Vardas() << " " << s1.Pavarde() << endl << endl;
+
+
+    // Copy c-tor
+    studentas s2 = s1;
+    s2.Pavarde("Petraitis");
+    cout << "s1: " << s1.Vardas() << " " << s1.Pavarde() << endl;
+    cout << "s2: " << s2.Vardas() << " " << s2.Pavarde() << endl << endl;
+
+
+    // Move c-tor
+    //studentas s3 = std::move(s1);
+    studentas s3 ({studentas()});
+    cout << "s1: " << s1.Vardas() << " " << s1.Pavarde() << endl;
+    cout << "s3: " << s3.Vardas() << " " << s3.Pavarde() << endl << endl;
+    
+    // Copy =
+    studentas s4;
+    s4 = s2;
+    s4.Pavarde("Kazlauskas");
+    cout << "s2: " << s2.Vardas() << " " << s2.Pavarde() << endl;
+    cout << "s4: " << s4.Vardas() << " " << s4.Pavarde() << endl << endl;
+
+    // Move =
+        //studentas s5;
+        //s5 = std::move(s3);
+    studentas s5 = studentas();
+
+    cout << "s3: " << s3.Vardas() << " " << s3.Pavarde() << endl;
+    cout << "s5: " << s5.Vardas() << " " << s5.Pavarde() << endl;
+    cin.get();
+
+//---------------------------------
     string conType;
     int baloSkc, duomNuskaitymas;
     auto allS = std::chrono::high_resolution_clock::time_point();
