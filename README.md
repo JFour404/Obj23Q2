@@ -1,4 +1,7 @@
 # OBJ2023Q2
+v1.2
+Realizuota Rule of 5, testavimo kodas pateiktas main.cpp
+______________________________________
 PROGRAMOS PALEIDIMAS (nuo v1.1)
 1. Į pasirinktą kompiuterio direktoriją įkelkite source (programos kodo failai) ir data (duomenu failai) direktorijas
 NOTE! programa neveiks, jei nebus laikomasi numatytos failų struktūros
