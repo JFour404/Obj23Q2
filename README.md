@@ -1,5 +1,6 @@
 # OBJ2023Q2
 v1.2
+
 Realizuota Rule of 5, testavimo kodas pateiktas main.cpp
 ______________________________________
 PROGRAMOS PALEIDIMAS (nuo v1.1)
