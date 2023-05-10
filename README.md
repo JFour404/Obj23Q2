@@ -1,4 +1,8 @@
 # OBJ2023Q2
+v1.5
+
+Sukurta abstrakčioji base klasė "zmogus", o jos išvestinė klasė "studentas"
+________________________________________
 v1.2
 
 Realizuota Rule of 5, testavimo kodas pateiktas main.cpp
