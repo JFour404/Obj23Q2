@@ -5,6 +5,7 @@ bool palygintiPavardes(const studentas& a, const studentas& b) {
     return a.Pavarde() < b.Pavarde();
 }
 
+/// @brief Funkcija skaiciuojanti galutini studento pazymi, naudojant nd vidurki.
 double studentas::vidurkis (){
     double suma = 0;
     for (auto it = m_Paz.begin(); it != m_Paz.end(); ++it) {
@@ -13,6 +14,7 @@ double studentas::vidurkis (){
     return suma/m_Paz.size()* 0.4 + m_Egz * 0.6;
 }
 
+/// @brief Funkcija skaiciuojanti galutini studento pazymi, naudojant nd mediana.
 double studentas::mediana (){
     sort(m_Paz.begin(), m_Paz.end());
     double vid = m_Paz.size() / 2.0;
@@ -21,6 +23,8 @@ double studentas::mediana (){
         m_Paz[vid] * 0.4 + m_Egz * 0.6;
 }
 
+/// @brief Funkcija generuojanti atsitiktinius nd ir egzamino pazymius.
+/// @param kiekis Nusako nd pazymiu kieki.
 void studentas::randomGradeGen(int kiekis){
     random_device rd;
     mt19937 mt(rd());
@@ -29,6 +33,11 @@ void studentas::randomGradeGen(int kiekis){
     m_Egz=(dist(mt));
 }
 
+/// @brief Konstruktorius, priimantis studentu duomenis is konsoles.
+/// @param is InputStream.
+/// @param baloSkc Kokiu budu bus skaiciuojamas galutinis pazymys (1 - vidurkis, 0 - mediana).
+/// @param pazPildymas Ar reikia generuoti atsitiktinius pazymius.
+/// @param kiekis Kiek sugeneruoti atsitiktiniu nd pazymiu.
 studentas::studentas(istream& is, int baloSkc, int pazPildymas, int kiekis) {
     cout << "\nIveskite studento varda (iveskite /e, kad nutraukti): ";
     is >> m_Vardas;
@@ -89,6 +98,8 @@ studentas::studentas(istream& is, int baloSkc, int pazPildymas, int kiekis) {
     is.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
+/// @brief Konstruktorius, priimantis studentu duomenis is failo.
+/// @param ss StringStream.
 studentas::studentas(stringstream& ss) {
     int pazymys;
     ss >> m_Vardas >> m_Pavarde;

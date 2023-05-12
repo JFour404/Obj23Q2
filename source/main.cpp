@@ -1,5 +1,12 @@
 #include "header.h"
 
+/// @brief Funkcija, kuri koordinuoja programa.
+/// Sios funkcijos atsakomybe yra surinkti programos vykdymo parametrus is vartotojo ir ivykdyti reikiama programos koda.
+/// Pagrindiniai parametrai, kuriuos surenka:
+///  1. Konteinerio tipas.
+///  2. Galutinio balo skaiciavimo budas.
+///  3. Duomenu pildymas (ar is konsoles, ar is failo) 
+///  4. Testavimo paleidimas.
 int main () {
     string conType;
     int baloSkc, duomNuskaitymas;
@@ -86,7 +93,7 @@ int main () {
                 cout << right << setw (40) << "TESTAVIMO REZULTATAI\n";
                 cout << "############################################################\n";
                 for (int f=1000; f<10000001; f=f*10) {
-                    string failas = "studentai" + to_string(f) + ".txt";
+                    failas = "studentai" + to_string(f) + ".txt";
                     if (conType == "/v"){
                         vector <studentas> id;
                         id.reserve(f);
