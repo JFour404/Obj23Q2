@@ -1,4 +1,13 @@
 # OBJ2023Q2
+v2.0
+
+Pridėta doxygen dokumentacija.
+
+Sukurti keli unit testai naudojant google test.
+
+
+
+________________________________________
 v1.5
 
 Sukurta abstrakčioji base klasė "zmogus", o jos išvestinė klasė "studentas"

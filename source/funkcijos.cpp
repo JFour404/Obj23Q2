@@ -66,6 +66,7 @@ string fileSelect () {
     }
     return failas;
 }
+/// @brief Rusiavimo pagal pavardes funkcija.
 template <typename Container>
 void rusiavimasPav (Container& id) {
     if constexpr (std::is_same_v<Container, std::vector<studentas>>) {
@@ -77,6 +78,7 @@ void rusiavimasPav (Container& id) {
     } 
 }
 
+/// @brief Fukcija, paleidziama, kai duomenys gaunami is konsoles.
 template <typename Container>
 void cmdRankinis (Container &id, int baloSkc, int pazPildymas, int kiekis) {
     try {
@@ -89,6 +91,7 @@ void cmdRankinis (Container &id, int baloSkc, int pazPildymas, int kiekis) {
     }
     writeToCmd (id, baloSkc);
 }
+/// @brief Funkcija, isvedanti duomenis i konsole
 template <typename Container>
 void writeToCmd (Container& id, int baloSkc){
     if (!id.empty()){
@@ -164,6 +167,7 @@ void writeToSingle (Container& id, int baloSkc) {
     out_f.close();
 }
 
+/// @brief Funkcija skirstanti studentus i dvi grupes nenaudojant papildomu konteineriu.
 template <typename Container>
 void containerLess (Container id, stringstream& zaliocikai, stringstream& eiliniai){
     for (auto it=id.begin(); it!=id.end(); ++it){ 
@@ -174,6 +178,7 @@ void containerLess (Container id, stringstream& zaliocikai, stringstream& eilini
             eiliniai << left << setw(40) << it->Pavarde() << left << setw(30) << it->Vardas() << right << setw(8) << fixed << setprecision(2) << it->GalBalas() << "\n";
         } 
 }
+/// @brief Funkcija skirstanti studentus i dvi grupes naudojant viena papildoma konteineri (skirta list konteineriui).
 template <typename Container, typename ContainerTemp>
 void singleAdd (Container& id, ContainerTemp& zaliocikaiTemp) {
     for (auto it=id.begin(); it!=id.end(); ){
@@ -185,6 +190,7 @@ void singleAdd (Container& id, ContainerTemp& zaliocikaiTemp) {
         }
     }
 }
+/// @brief Funkcija skirstanti studentus i dvi grupes naudojant viena papildoma konteineri (skirta vector ir deque konteineriams).
 template <typename Container, typename ContainerTemp>
 void singleAddEnhanced (Container& id, ContainerTemp& zaliocikaiTemp){
     auto temp = remove_if(id.begin(), id.end(), [&](const studentas &student){
@@ -196,6 +202,7 @@ void singleAddEnhanced (Container& id, ContainerTemp& zaliocikaiTemp){
     });
     id.erase(temp, id.end());
 }
+/// @brief Funkcija skirstanti studentus i dvi grupes naudojant du papildomus konteinerius.
 template <typename Container, typename ContainerTemp>
 void doubleAdd (Container id, ContainerTemp& zaliocikaiTemp, ContainerTemp& eiliniaiTemp) {
     for (auto it=id.begin(); it!=id.end(); ++it){
@@ -206,6 +213,7 @@ void doubleAdd (Container id, ContainerTemp& zaliocikaiTemp, ContainerTemp& eili
         }
     }
 }
+/// @brief Funkcija, surasanti studentu duomenis i buferi, kuris veliau yra naudojamas duomenu isvedimui i faila.
 template <typename Container, typename ContainerTemp>
 void createBuff (Container good, ContainerTemp bad, stringstream& zaliocikai, stringstream& eiliniai) {
     for (auto it=good.begin(); it!=good.end(); ++it)
@@ -241,6 +249,7 @@ void nameSurname (vector<string>& names, vector<string>& surnames){
         } else break;
     }
 }
+/// @brief Testiniu failu kurimas.
 void testFiles (int kiekisPaz, vector<string> names, vector<string> surnames, int f){
 //------------------------------------pazymiu generavimas, duomenu suglaudimas-------------------------------------------------------
     stringstream outputas;
@@ -400,6 +409,16 @@ void fileFull (Container& id, int baloSkc, string failas, string strat, string c
      fileTime.push_back(diff.count());
 }
 
+/// @brief Rezultatu failo kurimas ir isvedimas.
+/// @param nuskaitymas Failo nuskaitymo laikas.
+/// @param rusiavimasPglPavardes Studentu rusiavimo pagal pavardes laikas.
+/// @param rusiavimasIDviGrupes Studentu rusiavimas i dvi grupes pagal galutini pazymi laikas.
+/// @param failoPav Failo pavadinimas.
+/// @param PazNum Nd pazymiu skaicius.
+/// @param comm Konteinerio tipas.
+/// @param strat Studentu dalinimo i dvi grupes strategija.
+/// @param baloSkc Galutinio balo skaiciavimo metodas.
+/// @param fileTime Failo bendras testo laikas.
 void rezSpausdinimas (vector<double> nuskaitymas, vector<double> rusiavimasPglPavardes, vector<double> rusiavimasIDviGrupes, 
 vector<string> failoPav, int PazNum, string comm, string strat, int baloSkc, vector<double> &fileTime){
     ofstream out_r("rezultatai.txt");

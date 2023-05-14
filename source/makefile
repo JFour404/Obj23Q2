@@ -19,10 +19,10 @@ main: funkcijos.o studentas.o
 
 
 funkcijos.o: funkcijos.cpp
-	g++ -O3 -c funkcijos.cpp
+	g++ $(CXXFLAGS) -c funkcijos.cpp
 
 studentas.o: studentas.cpp
-	g++ -O3 -c studentas.cpp
+	g++ $(CXXFLAGS) -c studentas.cpp
 
 clean:
 	del -f *.o *.exe ..\data\zaliocikai*.txt ..\data\eiliniai*.txt
