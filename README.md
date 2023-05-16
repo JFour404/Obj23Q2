@@ -1,11 +1,19 @@
 # OBJ2023Q2
+
+Įdiegimo instrukcija:
+1. Parsisiunčiate setup.exe.
+2. Paleidžiate setup.exe ir vykdote vedlio nurodymus.
+3. Programą patartina paleisti naudojant terminalą, atsidarius direktoriją, kurioje programa yra įdiegta.
+4. Naudojatės programa.
+NOTE Norėdami ištestuoti programos veikimą, sukurkite papildomą aplankalą pavadinimu data. Jame įkelkite norimus testuoti failus, kurių formatas atitinka repozitorijoje įkelto studentai1000000.txt formatą.
+
 v2.0
 
 Pridėta doxygen dokumentacija.
 
 Sukurti keli unit testai naudojant google test.
 
-
+Sukurtas setup.exe, palengvintam programos įdiegimui.
 
 ________________________________________
 v1.5
